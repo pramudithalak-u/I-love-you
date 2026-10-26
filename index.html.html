@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>For Baba 💗</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#ffe4e1; --card:#fff8f2; --ink:#6b1a38; --soft:#a8566f; --pop:#ff5d7a; --butter:#ffe9a8;
+  color-scheme:light;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){--bg:#2a1020; --card:#3d1830; --ink:#ffd9e2; --soft:#e59ab0; --pop:#ff7a93; --butter:#ffd37a; color-scheme:dark;}
+}
+:root[data-theme="dark"]{--bg:#2a1020; --card:#3d1830; --ink:#ffd9e2; --soft:#e59ab0; --pop:#ff7a93; --butter:#ffd37a; color-scheme:dark;}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%}
+body{background:var(--bg);color:var(--ink);font-family:"Nunito",system-ui,sans-serif;font-size:18px;line-height:1.55;overflow-x:hidden}
+.wrap{max-width:520px;margin:0 auto;padding:32px 22px 56px;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;position:relative;z-index:1}
+h1{font-family:"Fredoka",system-ui,sans-serif;font-weight:700;font-size:clamp(88px,30vw,150px);line-height:.9;margin:0;letter-spacing:-2px;color:var(--pop)}
+h2{font-family:"Fredoka",system-ui,sans-serif;font-weight:600;font-size:28px;line-height:1.2;margin:0 0 10px}
+p{margin:0 0 16px}
+.sub{color:var(--soft);max-width:30ch}
+.heart{font-size:56px;display:inline-block;animation:beat 1.4s ease-in-out infinite;margin-bottom:6px}
+@keyframes beat{0%,100%{transform:scale(1)}15%{transform:scale(1.18)}30%{transform:scale(1)}45%{transform:scale(1.12)}}
+button{font-family:"Fredoka",system-ui,sans-serif;font-weight:600;font-size:20px;border:0;border-radius:999px;padding:14px 30px;cursor:pointer;background:var(--pop);color:#fff;transition:transform .15s}
+button:hover{transform:scale(1.05)}
+button:active{transform:scale(.96)}
+button:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+button.alt{background:var(--butter);color:#6b1a38}
+.hidden{display:none}
+.note{background:var(--card);border-radius:28px;padding:30px 26px;width:100%;margin:22px 0 24px;min-height:150px;display:flex;align-items:center;justify-content:center;transform:rotate(-1.5deg);box-shadow:6px 6px 0 var(--pop)}
+.note p{margin:0;font-size:21px}
+.note.pop{animation:pop .4s ease}
+@keyframes pop{from{transform:rotate(-1.5deg) scale(.85);opacity:0}to{transform:rotate(-1.5deg) scale(1);opacity:1}}
+.dots{font-family:"Fredoka",sans-serif;color:var(--soft);margin-bottom:18px}
+.row{display:flex;gap:14px;justify-content:center;align-items:center;flex-wrap:wrap;min-height:70px}
+.fly{position:fixed;bottom:-40px;font-size:26px;pointer-events:none;z-index:0;animation:rise linear forwards}
+@keyframes rise{to{transform:translateY(-115vh) rotate(25deg);opacity:0}}
+@media (prefers-reduced-motion: reduce){.heart,.fly,.note.pop{animation:none}}
+</style>
+</head>
+<body>
+<main class="wrap">
+
+  <section id="s1">
+    <div class="heart" aria-hidden="true">💗</div>
+    <h1>baba</h1>
+    <p class="sub" style="margin:14px auto 28px">I made a tiny something, just for you.</p>
+    <button id="open">Open it</button>
+  </section>
+
+  <section id="s2" class="hidden" style="width:100%">
+    <h2>Why you’re my favourite</h2>
+    <div class="note" id="note" aria-live="polite"><p id="reason"></p></div>
+    <div class="dots" id="dots"></div>
+    <button id="next">Next</button>
+  </section>
+
+  <section id="s3" class="hidden">
+    <div class="heart" aria-hidden="true">🥹</div>
+    <h2 id="q">Will you be my baba forever?</h2>
+    <div class="row" id="row">
+      <button id="yes">Yes</button>
+      <button id="no" class="alt">No</button>
+    </div>
+  </section>
+
+  <section id="s4" class="hidden">
+    <div class="heart" aria-hidden="true">💖</div>
+    <h2>Good. I love you, baba.</h2>
+    <p class="sub" style="margin:0 auto">Always have, always will.</p>
+    <p style="margin-top:24px"><button id="again" class="alt">Read it again</button></p>
+  </section>
+
+</main>
+
+<script>
+(function(){
+  var reasons = [
+    "You make my bad days lighter just by showing up.",
+    "Your laugh. I’d do silly things just to hear it.",
+    "You listen, even when I ramble on and on.",
+    "Home feels like wherever you are.",
+    "You’re my favourite person to do absolutely nothing with."
+  ];
+  var i = 0;
+  var $ = function(id){return document.getElementById(id)};
+  var secs = ["s1","s2","s3","s4"];
+  function show(id){ secs.forEach(function(s){ $(s).classList.toggle("hidden", s!==id); }); }
+
+  function hearts(n){
+    var set = ["💗","💖","💕","🩷","✨"];
+    for(var k=0;k<n;k++){
+      var h = document.createElement("div");
+      h.className = "fly";
+      h.textContent = set[Math.floor(Math.random()*set.length)];
+      h.style.left = Math.random()*95 + "vw";
+      h.style.animationDuration = (3 + Math.random()*3) + "s";
+      h.style.animationDelay = (Math.random()*0.8) + "s";
+      document.body.appendChild(h);
+      setTimeout(function(el){ return function(){ el.remove(); }; }(h), 7500);
+    }
+  }
+
+  function render(){
+    $("reason").textContent = reasons[i];
+    var n = $("note"); n.classList.remove("pop"); void n.offsetWidth; n.classList.add("pop");
+    $("dots").textContent = (i+1) + " of " + reasons.length;
+    $("next").textContent = (i === reasons.length-1) ? "One more thing…" : "Next";
+  }
+
+  $("open").onclick = function(){ i = 0; show("s2"); render(); hearts(14); };
+  $("next").onclick = function(){
+    if(i < reasons.length-1){ i++; render(); hearts(4); }
+    else { show("s3"); }
+  };
+
+  var yes = $("yes"), no = $("no"), tries = 0;
+  var lines = ["Wrong button, baba 🙈","Try again 😌","Nope, can’t press that one!","Okay, you’re just being cute now","Only one answer left 💗"];
+  function dodge(e){
+    if(e) e.preventDefault();
+    tries++;
+    $("q").textContent = lines[Math.min(tries-1, lines.length-1)];
+    var r = $("row").getBoundingClientRect();
+    no.style.position = "relative";
+    no.style.left = ((Math.random()-0.5) * Math.min(r.width, 260)) + "px";
+    no.style.top = ((Math.random()-0.5) * 120) + "px";
+    yes.style.transform = "scale(" + Math.min(1 + tries*0.18, 2) + ")";
+    yes.style.margin = (tries*4) + "px";
+  }
+  no.addEventListener("mouseenter", dodge);
+  no.addEventListener("touchstart", dodge, {passive:false});
+  no.addEventListener("click", dodge);
+
+  yes.onclick = function(){ show("s4"); hearts(40); };
+  $("again").onclick = function(){
+    tries = 0; i = 0;
+    $("q").textContent = "Will you be my baba forever?";
+    no.style.left = no.style.top = ""; yes.style.transform = ""; yes.style.margin = "";
+    show("s1");
+  };
+})();
+</script>
+</body>
+</html>
